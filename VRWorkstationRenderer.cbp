@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="VRWorkstationRenderer" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\VRWorkstationRenderer" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="E:\Systeme\MinGW\lib\libglu32.a" />
+					<Add library="E:\Systeme\MinGW\lib\libopengl32.a" />
+					<Add library="E:\Systeme\MinGW\lib\glut32.lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\VRWorkstationRenderer" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Linker>
+			<Add library="opengl32" />
+			<Add library="glu32" />
+			<Add library="gdi32" />
+		</Linker>
+		<Unit filename="Character.cpp" />
+		<Unit filename="Character.hpp" />
+		<Unit filename="MyWindow.cpp" />
+		<Unit filename="MyWindow.hpp" />
+		<Unit filename="MyWindowFinder.cpp" />
+		<Unit filename="MyWindowFinder.hpp" />
+		<Unit filename="Point.cpp" />
+		<Unit filename="Point.hpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="myMouse.cpp" />
+		<Unit filename="myMouse.hpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,56 @@
+# depslib dependency file v1.0
+1372098617 source:e:\fichiers\work\trash\vrworkstationrenderer\main.c
+	<windows.h>
+	<gl/glut.h>
+
+1396729992 source:e:\fichiers\work\trash\vrworkstationrenderer\main.cpp
+	<windows.h>
+	<gl/glut.h>
+	<Math.h>
+	"Point.hpp"
+	"MyWindowFinder.hpp"
+	"MyMouse.hpp"
+	"Character.hpp"
+	<time.h>
+
+1396111938 e:\fichiers\work\trash\vrworkstationrenderer\point.hpp
+	<GL/glut.h>
+	<math.h>
+
+1396645635 source:e:\fichiers\work\trash\vrworkstationrenderer\point.cpp
+	"Point.hpp"
+
+1396642599 source:e:\fichiers\work\trash\vrworkstationrenderer\mywindowfinder.cpp
+	"MyWindowFinder.hpp"
+	<stdio.h>
+
+1396559415 e:\fichiers\work\trash\vrworkstationrenderer\mywindowfinder.hpp
+	<windows.h>
+	<iostream>
+	"MyWindow.hpp"
+
+1396645734 e:\fichiers\work\trash\vrworkstationrenderer\mywindow.hpp
+	<windows.h>
+	<iostream>
+	<list>
+	<math.h>
+	"Point.hpp"
+
+1396645880 source:e:\fichiers\work\trash\vrworkstationrenderer\mywindow.cpp
+	"MyWindow.hpp"
+	<time.h>
+
+1396111756 e:\fichiers\work\trash\vrworkstationrenderer\character.hpp
+	"Point.hpp"
+	<iostream>
+
+1396645804 source:e:\fichiers\work\trash\vrworkstationrenderer\character.cpp
+	"Character.hpp"
+
+1395951054 source:e:\fichiers\work\trash\vrworkstationrenderer\mymouse.cpp
+	"MyMouse.hpp"
+
+1395792787 e:\fichiers\work\trash\vrworkstationrenderer\mymouse.hpp
+	<windows.h>
+	<iostream>
+
