@@ -42,9 +42,10 @@ bool CALLBACK EnumWindowsProc(HWND hWnd, LPARAM param)
     char WindowName[80];
     GetWindowText(hWnd, WindowName, 80);
 
-    /*
+
     // This commented section retrieves all windows visible and that are on the task bar. Some performances issues.
-    if(IsWindowVisible(hWnd) && strlen(WindowName) > 0){
+    // Integrate in some specific method (performance issues may arise when starting to fetch multiple times
+    /*if(IsWindowVisible(hWnd) && strlen(WindowName) > 0){
         char pszClassName[64];
         GetClassName(hWnd, pszClassName, 64);
         if((GetWindowLong(hWnd, GWL_STYLE) & WS_EX_APPWINDOW))
@@ -56,8 +57,8 @@ bool CALLBACK EnumWindowsProc(HWND hWnd, LPARAM param)
             cout << endl;
         }
 
-    }*/
-
+    }
+*/
     if(strlen(WindowName)>0){
         if(!strcmp(WindowName,myFinder->getLastWindowNameRequest())){
             myFinder->setNewWindow(myFinder->getLastWindowNameRequest(), hWnd);
