@@ -5,7 +5,7 @@ Character::Character(){
     pos = new Point(0,0,0);
     dir = new Point(0,0,-20);
     up = new Point(0,1,0);
-    rotationalVelocity = 10;
+    rotationalVelocity = 1;
 }
 
 Character::~Character(){
