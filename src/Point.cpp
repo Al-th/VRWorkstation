@@ -30,7 +30,7 @@ void Point::multiply(float scalar){
     z *= scalar;
 }
 
-void Point::rotate(float rotationInDeg){
+void Point::rotateYaw(float rotationInDeg){
 
     float pi = atan(1)*4;
     float rotationInRad = rotationInDeg * (pi/180);
@@ -40,6 +40,15 @@ void Point::rotate(float rotationInDeg){
 
     x = newX;
     z = newZ;
+}
 
+void Point::rotatePitch(float rotationInDeg){
+    float pi = atan(1)*4;
+    float rotationInRad = rotationInDeg * (pi/180);
 
+    float newY = cos(rotationInRad)*y - sin(rotationInRad)*z;
+    float newZ = sin(rotationInRad)*y  + cos(rotationInRad)*z;
+
+    y = newY;
+    z = newZ;
 }

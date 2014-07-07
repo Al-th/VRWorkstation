@@ -13,7 +13,8 @@ public:
     void add(Point*);
     void substract(Point*);
     void multiply(float);
-    void rotate(float);
+    void rotateYaw(float);
+    void rotatePitch(float);
 
 public:
 

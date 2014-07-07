@@ -68,8 +68,8 @@ void MyWindow::adjustConfiguration(RECT* pos, float scale){
     Point* p2 = new Point(pos->right,0,0);
 
     if(rotation>0){
-        p1->rotate(rotation);
-        p2->rotate(rotation);
+        p1->rotateYaw(rotation);
+        p2->rotateYaw(rotation);
 
         pos->left = 50+(float)GetSystemMetrics(SM_CXSCREEN)/2;
         pos->right = pos->left + (abs(p1->x) + abs(p2->x));
@@ -78,8 +78,8 @@ void MyWindow::adjustConfiguration(RECT* pos, float scale){
         rightZOrder = (abs(p1->z)+abs(p2->z))/scale;
     }
     else if (rotation < 0){
-        p1->rotate(rotation);
-        p2->rotate(rotation);
+        p1->rotateYaw(rotation);
+        p2->rotateYaw(rotation);
 
 
         pos->right = -50-(float)GetSystemMetrics(SM_CXSCREEN)/2;

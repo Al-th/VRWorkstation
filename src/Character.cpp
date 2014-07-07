@@ -50,10 +50,10 @@ void Character::updateDir(unsigned char key, float timeInterval){
     cout << key << ":" << GLUT_KEY_RIGHT << ":" << GLUT_KEY_LEFT << endl;
     switch(key){
         case 100: // D
-                dir->rotate(this->rotationalVelocity*timeInterval);
+                dir->rotateYaw(this->rotationalVelocity*timeInterval);
             break;
         case 113: // Q
-                dir->rotate(-1*(this->rotationalVelocity)*timeInterval);
+                dir->rotateYaw(-1*(this->rotationalVelocity)*timeInterval);
             break;
         default:
             break;
@@ -64,5 +64,6 @@ void Character::updateDir(unsigned char key, float timeInterval){
 void Character::updateDir(int deltaX, int deltaY, float deltaTime){
     cout << "toto" << endl;
     Point* p = new Point(*getDir());
-    dir->rotate(this->rotationalVelocity*deltaX*deltaTime);
+    dir->rotateYaw(this->rotationalVelocity*deltaX*deltaTime);
+    dir->rotatePitch(-1*this->rotationalVelocity*deltaY*deltaTime);
 }
