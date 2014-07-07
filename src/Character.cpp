@@ -46,7 +46,6 @@ void Character::updatePos(unsigned char key, float deltaTime){
 }
 
 void Character::updateDir(unsigned char key, float timeInterval){
-    Point* p = new Point(*getDir());
     cout << key << ":" << GLUT_KEY_RIGHT << ":" << GLUT_KEY_LEFT << endl;
     switch(key){
         case 100: // D
@@ -58,14 +57,15 @@ void Character::updateDir(unsigned char key, float timeInterval){
         default:
             break;
     }
-    delete p;
 }
 
 void Character::updateDir(int deltaX, int deltaY, float deltaTime){
-    Point* p = new Point(*getDir());
+    //Point* p = new Point(*getDir());
     dir->rotateYaw(this->rotationalVelocity*deltaX*deltaTime);
     dir->rotatePitch(-1*this->rotationalVelocity*deltaY*deltaTime);
-    cout << dir->x << endl;
-    cout << dir->y << endl;
-    cout << dir->z << endl;
+
+
+    up->rotatePitch(-1*this->rotationalVelocity*deltaY*deltaTime);
+
+
 }
