@@ -15,10 +15,12 @@ class Character{
         Point* getPos();
         Point* getDir();
         Point* getUp();
-        void updatePos(unsigned char);
-        void updateDir(unsigned char);
+        void updatePos(unsigned char, float);
+        void updateDir(unsigned char, float);
+        void updateDir(int,int,float);
 
         float rotationalVelocity;
+        float translationalVelocity;
 
     private :
         Point* pos;

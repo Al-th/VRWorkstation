@@ -152,9 +152,6 @@ bool MyWindow::convertToDib(HBITMAP &hBitmap)
       {
         stBitmapInfo.bmiHeader.biClrUsed =
                         1 << stBitmap.bmBitsPixel;
-        // This image is paletted-managed.
-
-        // Hence we have to synthesize its palette.
 
       }
       stBitmapInfo.bmiHeader.biClrImportant =
@@ -166,10 +163,6 @@ bool MyWindow::convertToDib(HBITMAP &hBitmap)
 
       if (hDib)
       {
-        // ok, we're lucky. Now we have
-
-        // to transfer the image to the DFB.
-
         HDC hMemSrc = CreateCompatibleDC(NULL);
         if (hMemSrc)
         {
@@ -206,12 +199,6 @@ bool MyWindow::convertToDib(HBITMAP &hBitmap)
                   }
                 }
 
-                // transfer the image using BitBlt function.
-
-                // It will probably end in the
-
-                // call to driver's DrvCopyBits function.
-
                 if (BitBlt(hMemDst, 0, 0, stBitmap.bmWidth,
                       stBitmap.bmHeight, hMemSrc, 0, 0, SRCCOPY))
                   bConverted = true; // success
@@ -228,7 +215,7 @@ bool MyWindow::convertToDib(HBITMAP &hBitmap)
 
         if (bConverted)
         {
-          DeleteObject(hBitmap); // it's no longer needed
+          DeleteObject(hBitmap);
 
           hBitmap = hDib;
         }

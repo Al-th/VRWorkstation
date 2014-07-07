@@ -14,9 +14,9 @@ MyMouse* myMouse;
 
 int WindowName;
 
-
 GLuint screenTexture;
 GLuint mouseTexture;
+int timeInterval = 0;
 
 Character* character;
 
@@ -62,8 +62,8 @@ void drawWindow(MyWindow* currentWindow, float zOrder){
 
         glTexImage2D(GL_TEXTURE_2D,0,4,bitmap.bmWidth,bitmap.bmHeight,0,GL_RGBA, GL_UNSIGNED_BYTE, bitmap.bmBits);
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         //Draw texture
         int width = bitmap.bmWidth;
@@ -194,9 +194,8 @@ void drawMouse(){
 
     glTexImage2D(GL_TEXTURE_2D,0,4,bitmap.bmWidth,bitmap.bmHeight,0,GL_RGBA, GL_UNSIGNED_BYTE, bitmap.bmBits);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     //Draw texture
     int width = bitmap.bmWidth;
     int height = bitmap.bmHeight;
@@ -269,13 +268,20 @@ void reshape(int width, int height){
 }
 
 void keyboardFunc(unsigned char key, int x, int y){
-    character->updatePos(key);
-    character->updateDir(key);
+    character->updatePos(key, timeInterval/1000.0);
+    character->updateDir(key, timeInterval/1000.0);
 
 }
 
-void mouseFunc(int button, int state, int x, int y){
-    //
+void mouseFunc(int x, int y){
+    //We look if we had a mouse movement
+    if(x!=(1024/2) || y != (800/2)){
+        //Update camera
+        character->updateDir(x-(1024/2),y-(800/2), timeInterval/1000.0);
+        //Replace mouse in the middle
+        glutWarpPointer(1024/2,800/2);
+
+    }
 }
 
 
@@ -285,10 +291,16 @@ void initGL(){
     glGenTextures(1,&screenTexture);
     glGenTextures(1,&mouseTexture);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glutSetCursor(GLUT_CURSOR_NONE);
+
+}
+
+void idleFunc(){
+    int currentTime = glutGet(GLUT_ELAPSED_TIME);
+    timeInterval = currentTime - timeInterval;
 
 }
 
@@ -317,7 +329,8 @@ int main( int argc, char *argv[ ], char *envp[ ] ){
     glutReshapeFunc(reshape);
     glutDisplayFunc(draw);
     glutKeyboardFunc(keyboardFunc);
-    glutMouseFunc(mouseFunc);
+    glutPassiveMotionFunc(mouseFunc);
+    glutIdleFunc(idleFunc);
 
 
     initGL();

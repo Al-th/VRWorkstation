@@ -24,6 +24,12 @@ void Point::substract(Point* p){
     z -= p->z;
 }
 
+void Point::multiply(float scalar){
+    x *= scalar;
+    y *= scalar;
+    z *= scalar;
+}
+
 void Point::rotate(float rotationInDeg){
 
     float pi = atan(1)*4;
