@@ -2,7 +2,7 @@
 
 
 Character::Character(){
-    pos = new Point(0,0,0);
+    pos = new Point(0,0,30);
     dir = new Point(0,0,-1);
     up = new Point(0,1,0);
     rotationalVelocity = 0.05;
@@ -62,8 +62,10 @@ void Character::updateDir(unsigned char key, float timeInterval){
 }
 
 void Character::updateDir(int deltaX, int deltaY, float deltaTime){
-    cout << "toto" << endl;
     Point* p = new Point(*getDir());
     dir->rotateYaw(this->rotationalVelocity*deltaX*deltaTime);
     dir->rotatePitch(-1*this->rotationalVelocity*deltaY*deltaTime);
+    cout << dir->x << endl;
+    cout << dir->y << endl;
+    cout << dir->z << endl;
 }

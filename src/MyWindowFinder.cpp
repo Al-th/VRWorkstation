@@ -57,8 +57,8 @@ bool CALLBACK EnumWindowsProc(HWND hWnd, LPARAM param)
             cout << endl;
         }
 
-    }
-*/
+    }*/
+
     if(strlen(WindowName)>0){
         if(!strcmp(WindowName,myFinder->getLastWindowNameRequest())){
             myFinder->setNewWindow(myFinder->getLastWindowNameRequest(), hWnd);

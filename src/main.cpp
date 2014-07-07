@@ -142,7 +142,7 @@ void drawWindow(MyWindow* currentWindow, float zOrder){
 
 void drawScreenSurface(){
     //TODO : WindowPosition for mouse()
-
+    glEnable(GL_TEXTURE_2D);
     for (int i = 0 ; i < myFinder->getNbWindows(); i++){
         MyWindow* currentWindow = myFinder->getAnchorWindow(i);
         currentWindow->setConfiguration(i);
@@ -167,6 +167,69 @@ void drawOrigin(){
 
 void lookAt(Point* pos, Point* dir, Point* top){
      gluLookAt(pos->x,pos->y,pos->z,pos->x+dir->x,pos->y+dir->y,pos->z+dir->z,top->x,top->y,top->z);
+}
+void drawCube(float size){
+    glDisable(GL_TEXTURE_2D);
+/*
+    glBegin(GL_POLYGON);
+    glColor3f(0,1,0); //green
+    glVertex3f(-size, -size, size);
+    glVertex3f(size, -size, size);
+    glVertex3f(size, size, size);
+    glVertex3f(-size, size, size);
+    glEnd();
+*/
+
+
+    glBegin(GL_QUADS);
+    glColor3f(0,0,1);
+    glVertex3f(-size, size, size);
+    glVertex3f(size, size, size);
+    glVertex3f(size, size, -size);
+    glVertex3f(-size, -size, -size);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glColor3f(1,0,0);
+    glVertex3f(-size, size, -size);
+    glVertex3f(size, size, -size);
+    glVertex3f(size, -size, -size);
+    glVertex3f(-size, -size, -size);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glColor3f(1,1,0);
+    glVertex3f(-size, -size, -size);
+    glVertex3f(size, -size, -size);
+    glVertex3f(size, -size, size);
+    glVertex3f(-size, -size, size);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glColor3f(0,1,1);
+    glVertex3f(size, -size, size);
+    glVertex3f(size, -size, -size);
+    glVertex3f(size, size, -size);
+    glVertex3f(size, size, size);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glColor3f(1,0,1);
+    glVertex3f(-size, -size,-size);
+    glVertex3f(-size, -size, size);
+    glVertex3f(-size, size, size);
+    glVertex3f(-size, size, -size);
+    glEnd();
+
+
+    glEnable(GL_TEXTURE_2D);
+}
+
+void drawRoom(){
+    float size = 100;
+    drawCube(size);
+    glPushMatrix();
+
 }
 
 void drawMouse(){
@@ -243,13 +306,11 @@ void draw()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );	//Efface le frame buffer et le Z-buffer
     glMatrixMode(GL_MODELVIEW);	//Choisit la matrice MODELVIEW
     glLoadIdentity();	//Réinitialise la matrice
-
-
     lookAt(character->getPos(),character->getDir(),character->getUp());
 
-
-    drawScreenSurface();
+    drawRoom();
     drawOrigin();
+    drawScreenSurface();
     drawMouse();
 
     glutSwapBuffers();
@@ -309,7 +370,7 @@ int main( int argc, char *argv[ ], char *envp[ ] ){
     myFinder = new MyWindowFinder();
     myMouse = new MyMouse();
 
-    myFinder->startFetchingNewWindow("Sans titre - Paint");
+    myFinder->startFetchingNewWindow("The Idiot Test Challenge - YouTube - Google Chrome");
     myFinder->startFetchingNewWindow("SoundWire Server");
     myFinder->startFetchingNewWindow("Sans titre - Paint");
     for (int i = 0 ; i < myFinder->getNbWindows();i++){
