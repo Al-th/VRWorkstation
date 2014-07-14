@@ -1,43 +1,87 @@
-#include "MyMouse.hpp"
+#include "Window.h"
 
 
 
-MyMouse::MyMouse(){
+Window::Window(HWND hwnd){
+    this->hwnd = hwnd;
 }
 
-MyMouse::~MyMouse(){
+Window::~Window(){
+    while(childList.size()!=0){
+        Window* w = childList.back();
+        childList.pop_back();
+        delete w;
+    }
 }
 
-HBITMAP MyMouse::getMouseBitmap(){
-    HDC hdcScreen = GetDC(NULL);
-    HDC hdcMem = CreateCompatibleDC(hdcScreen);
-
-    // Create the bitmap to use as a canvas.
-    HBITMAP mouseBitmap = CreateCompatibleBitmap(hdcScreen, 256,256);
-
-    // Select the bitmap into the device context.
-
-
-    // Get information about the global cursor.
-    CURSORINFO ci;
-    ci.cbSize = sizeof(ci);
-    GetCursorInfo(&ci);
-
-
-    // Draw the cursor into the canvas.
-    HGDIOBJ hbmOld = SelectObject(hdcMem, mouseBitmap);
-    DrawIconEx (hdcMem, 0, 0, ci.hCursor, 0, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), NULL, DI_NORMAL);
-    mouseBitmap = (HBITMAP)SelectObject(hdcMem, hbmOld);
-
-
-    DeleteDC(hdcMem);
-    DeleteDC(hdcScreen);
-
-    return mouseBitmap;
+void Window::updateContext(){
+    updateChilds();
+    updateBitmap();
 }
 
-bool MyMouse::convertToDib(HBITMAP &hBitmap)
-{
+BITMAP Window::getBitmap(){
+    return this->bitmap;
+}
+
+
+HWND Window::getHwnd(){
+    return hwnd;
+}
+
+ void Window::updateChilds(){
+    while(childList.size()!=0){
+        Window* w = childList.back();
+        childList.pop_back();
+        delete w;
+    }
+
+    HWND tmpWindowHandle = GetTopWindow(NULL);
+    while(tmpWindowHandle!=NULL){
+        DWORD pid;
+        DWORD currentWindowPid;
+        GetWindowThreadProcessId(tmpWindowHandle,&pid);
+        GetWindowThreadProcessId(this->hwnd,&currentWindowPid);
+        if(pid==currentWindowPid && tmpWindowHandle != this->hwnd){
+            Window* child = new Window(tmpWindowHandle);
+            childList.push_front(child);
+        }
+        tmpWindowHandle = GetNextWindow(tmpWindowHandle,GW_HWNDNEXT);
+    }
+ }
+
+void Window::updateBitmap(){
+        getHBitmap();
+        convertToDib();
+        GetObject (hBitmap, sizeof(BITMAP), &bitmap);
+}
+
+void Window::getHBitmap(){
+    HDC hdcCapture;
+    HDC hdcMemCapture;
+    HBITMAP tmpHBitmap;
+    HGDIOBJ oldCaptureBitmap;
+
+    RECT clientRect;
+    GetClientRect(hwnd,&clientRect);
+    int width = clientRect.right-clientRect.left;
+    int height = clientRect.bottom-clientRect.top ;
+
+    hdcCapture = GetDC (hwnd);
+    hdcMemCapture = CreateCompatibleDC(hdcCapture);
+    tmpHBitmap = CreateCompatibleBitmap(hdcCapture,clientRect.right-clientRect.left,clientRect.bottom-clientRect.top);
+
+    oldCaptureBitmap = SelectObject(hdcMemCapture, tmpHBitmap);
+    BitBlt(hdcMemCapture, 0,0, width, height, hdcCapture, 0,0, SRCCOPY);
+    tmpHBitmap = (HBITMAP)SelectObject(hdcMemCapture, oldCaptureBitmap);
+
+    DeleteDC(hdcMemCapture);
+    DeleteDC(hdcCapture);
+
+    DeleteObject(this->hBitmap);
+    this->hBitmap = tmpHBitmap;
+}
+
+bool Window::convertToDib(){
     bool bConverted = false;
     BITMAP stBitmap;
     if (GetObject(hBitmap, sizeof(stBitmap),
@@ -76,7 +120,6 @@ bool MyMouse::convertToDib(HBITMAP &hBitmap)
 
       if (hDib)
       {
-
         HDC hMemSrc = CreateCompatibleDC(NULL);
         if (hMemSrc)
         {
@@ -91,6 +134,7 @@ bool MyMouse::convertToDib(HBITMAP &hBitmap)
               {
                 if (stBitmap.bmBitsPixel <= 8)
                 {
+                  // take the DFB's palette and set it to our DIB
 
                   HPALETTE hPalette =
                     (HPALETTE) GetCurrentObject(hMemSrc, OBJ_PAL);
