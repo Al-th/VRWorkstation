@@ -1,9 +1,10 @@
 #ifndef CULLINGENGINE_H_INCLUDED
 #define CULLINGENGINE_H_INCLUDED
 
-#define INSIDE 1
-#define OUTSIDE 0
-#define PARTIAL 2
+
+#define NOT_VISIBLE 0
+#define PARTIALLY_VISIBLE 1
+#define FULLY_VISIBLE 2
 
 #include "Screen.h"
 #include "Utils/Plane.h"

@@ -36,7 +36,7 @@ int Screen::getScreenID(){
 
 void Screen::idleFunction(CullingEngine* cullingEngine){
     int visibility = cullingEngine->isScreenVisible(this);
-    if(visibility == 1){
+    if(visibility > 1){
         for (int i = 0 ; i < nbWindows; i++){
             Window* currentWindow = anchorWindow[i];
             currentWindow->updateContext();
@@ -46,10 +46,10 @@ void Screen::idleFunction(CullingEngine* cullingEngine){
 }
 
 void Screen::renderScreen(int visibility){
-    if(visibility == 1){
+    if(visibility == 2){
         glColor3f(1,1,1);
     }
-    else if(visibility == 2){
+    else if(visibility == 1){
         glColor3f(0.5,0.5,0.5);
     }
     else{

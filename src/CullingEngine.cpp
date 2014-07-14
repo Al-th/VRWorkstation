@@ -118,13 +118,13 @@ int CullingEngine::isScreenVisible(Screen* screen){
     }
 
     if(totalCornerVisible==4){
-        return 1;
+        return FULLY_VISIBLE;
     }
     else if(totalCornerVisible==0){
-        return 0;
+        return NOT_VISIBLE;
     }
     else{
-        return 2;
+        return PARTIALLY_VISIBLE;
     }
 }
 
