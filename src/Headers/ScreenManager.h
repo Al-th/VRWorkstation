@@ -3,6 +3,7 @@
 
 #include "Window.h"
 #include "Screen.h"
+#include "CullingEngine.h"
 #include <cmath>
 
 using namespace std;
@@ -15,8 +16,8 @@ class ScreenManager{
         void bindWindowToScreen(Window*, int);
         Vec3<double>** computeCorners(int, int);
 
-        void renderFunction();
-        void idleFunction();
+        void renderFunction(CullingEngine*);
+        void idleFunction(CullingEngine*);
     private:
         int nbScreens;
         Screen** screenPool;

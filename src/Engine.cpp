@@ -8,18 +8,23 @@ Engine::Engine(int* argc, char** argv){
     screenManager = new ScreenManager(NB_SCREENS);
     windowBinder = new WindowBinder(screenManager);
     character = new Character();
+    cullingEngine = new CullingEngine((float)0.1,(float)1000,(float)OPENGL_WINDOW_WIDTH/(float)OPENGL_WINDOW_HEIGHT,(float)45,
+                                      character->getPos(),character->getDir(), character->getUp());
     timeInterval = 0;
 
     initOpenGL(argc, argv);
 
-    bindWindow("The Idiot Test Challenge - YouTube - Google Chrome",0);
+    for(int i = 0 ; i < 8 ; i++){
+        bindWindow("The Idiot Test Challenge - YouTube - Google Chrome",i);
+    }
+    bindWindow("Google - Google Chrome",5);
+
 }
 
 Engine::~Engine(){
     delete screenManager;
     delete windowBinder;
     delete character;
-
 }
 
 void Engine::initOpenGL(int* argc, char** argv){
@@ -72,7 +77,7 @@ void Engine::renderCallback(){
     lookAt();
 
     renderEnvironment();
-    screenManager->renderFunction();
+    screenManager->renderFunction(cullingEngine);
 
     glutSwapBuffers();
     glutPostRedisplay();
@@ -89,7 +94,9 @@ void Engine::reshapeCallback(int width, int height){
 void Engine::idleCallback(){
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
     timeInterval = currentTime - timeInterval;
-    screenManager->idleFunction();
+    screenManager->idleFunction(cullingEngine);
+    cullingEngine->updateOrigin(character->getPos(),character->getDir(), character->getUp());
+
 
 }
 

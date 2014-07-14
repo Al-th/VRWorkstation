@@ -12,13 +12,13 @@ WindowBinder::~WindowBinder(){
 
 bool CALLBACK EnumWindowsProc(HWND hWnd, LPARAM param)
 {
-
     WindowBinder* binder = (WindowBinder*)param;
     char WindowName[80];
     GetWindowText(hWnd, WindowName, 80);
 
     if(strlen(WindowName)>0){
         if(!strcmp(WindowName,binder->requestedName)){
+            cout << "Window Binder : Found window !" << endl;
             binder->finalizeBinding(hWnd,binder->requestedScreen);
         }
     }

@@ -8,6 +8,7 @@
 #include "ScreenManager.h"
 #include "WindowBinder.h"
 #include "Character.h"
+#include "CullingEngine.h"
 
 
 
@@ -28,6 +29,7 @@ class Engine{
         ScreenManager* screenManager;
         WindowBinder* windowBinder;
         Character* character;
+        CullingEngine* cullingEngine;
         float timeInterval;
 
         void bindWindow(char*,int);

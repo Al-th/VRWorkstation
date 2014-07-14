@@ -2,7 +2,8 @@
 #define PLANE_H_INCLUDED
 
 #include "Vec3.h"
-template <class T> class Vec3
+
+template <class T> class Vec3;
 
 using namespace std;
 
@@ -10,6 +11,9 @@ template <class T> class Plane{
     public :
         Vec3<T> normal;
         T d;
+
+        Plane(){
+        }
 
         Plane(Vec3<T> p1, Vec3<T> p2, Vec3<T> p3){
             Vec3<T> v1 = p2-p1;
@@ -20,6 +24,11 @@ template <class T> class Plane{
         }
 
         Plane(Vec3<T> origin, Vec3<T> normal){
+            this->normal = normal;
+            d = -(normal.dotProduct(origin));
+        }
+
+        void update(Vec3<T> origin, Vec3<T> normal){
             this->normal = normal;
             d = -(normal.dotProduct(origin));
         }

@@ -34,23 +34,40 @@ int Screen::getScreenID(){
     return screenID;
 }
 
-void Screen::idleFunction(){
- for (int i = 0 ; i < nbWindows; i++){
-        Window* currentWindow = anchorWindow[i];
-        currentWindow->updateContext();
+void Screen::idleFunction(CullingEngine* cullingEngine){
+    int visibility = cullingEngine->isScreenVisible(this);
+    if(visibility == 1){
+        for (int i = 0 ; i < nbWindows; i++){
+            Window* currentWindow = anchorWindow[i];
+            currentWindow->updateContext();
+        }
     }
+
 }
 
-void Screen::renderScreen(){
+void Screen::renderScreen(int visibility){
+    if(visibility == 1){
+        glColor3f(1,1,1);
+    }
+    else if(visibility == 2){
+        glColor3f(0.5,0.5,0.5);
+    }
+    else{
+        glColor3f(0,0,0);
+    }
+
+
+
+
+
     glBegin(GL_QUAD_STRIP);
-    glColor3f(1,1,1);
 
     float left = screenCorners[0]->x;
     float right = screenCorners[2]->x;
     float top = screenCorners[0]->y;
     float bottom = screenCorners[1]->y;
-    float leftZ = -screenCorners[0]->z;
-    float rightZ = -screenCorners[2]->z;
+    float leftZ = screenCorners[0]->z;
+    float rightZ = screenCorners[2]->z;
 
     glVertex3f(left,top,leftZ);
     glVertex3f(right, top, rightZ);
@@ -112,19 +129,19 @@ void Screen::drawWindow(Window* currentWindow, float zOrder){
         float right = windowCorners[2]->x;
         float top = windowCorners[0]->y;
         float bottom = windowCorners[1]->y;
-        float leftZ = -windowCorners[0]->z;
-        float rightZ = -windowCorners[2]->z;
+        float leftZ = windowCorners[0]->z;
+        float rightZ = windowCorners[2]->z;
 
         glBegin(GL_TRIANGLE_STRIP);
 
         glTexCoord2f(0,0);
-        glVertex3f(left,top,leftZ);
+        glVertex3f(right,top,rightZ);
         glTexCoord2f(1,0);
-        glVertex3f(right, top,rightZ );
+        glVertex3f(left, top,leftZ );
         glTexCoord2f(0,1);
-        glVertex3f(left, bottom,leftZ);
-        glTexCoord2f(1,1);
         glVertex3f(right, bottom,rightZ);
+        glTexCoord2f(1,1);
+        glVertex3f(left, bottom,leftZ);
 
         glEnd();
     }
@@ -148,7 +165,20 @@ void Screen::renderWindows(){
     glDisable(GL_TEXTURE_2D);
 }
 
-void Screen::renderFunction(){
-    renderScreen();
-    renderWindows();
+void Screen::renderFunction(CullingEngine* cullingEngine){
+
+    int visibility = cullingEngine->isScreenVisible(this);
+
+    if(visibility>0){
+        renderScreen(visibility);
+        renderWindows();
+    }
+
+
+
+
 }
+
+ Vec3<double>** Screen::getCorners(){
+    return screenCorners;
+ }

@@ -64,15 +64,15 @@ Vec3<double>** ScreenManager::computeCorners(int screenID, int nbScreens){
 }
 
 
-void ScreenManager::renderFunction(){
+void ScreenManager::renderFunction(CullingEngine* cullingEngine){
     for(int i = 0 ; i < nbScreens; i++){
-        screenPool[i]->renderFunction();
+        screenPool[i]->renderFunction(cullingEngine);
     }
 }
 
-void ScreenManager::idleFunction(){
+void ScreenManager::idleFunction(CullingEngine* cullingEngine){
     for(int i = 0 ; i < nbScreens; i++){
-        screenPool[i]->idleFunction();
+        screenPool[i]->idleFunction(cullingEngine);
     }
 
 }
