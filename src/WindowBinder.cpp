@@ -1,4 +1,4 @@
-#include "WindowBinder.h"
+#include "Headers/WindowBinder.h"
 
 
 WindowBinder::WindowBinder(ScreenManager* screenManager){

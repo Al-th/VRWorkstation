@@ -4,7 +4,7 @@
 #include <windows.h>
 #include <gl/glut.h>
 #include "Window.h"
-#include "Utils\Vec3.h"
+#include "Utils/Vec3.h"
 
 using namespace std;
 

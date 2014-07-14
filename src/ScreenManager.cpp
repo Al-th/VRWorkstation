@@ -1,4 +1,4 @@
-#include "ScreenManager.h"
+#include "Headers/ScreenManager.h"
 
 #define SCREEN_WIDTH 32.0
 #define SCREEN_HEIGHT 20.0
