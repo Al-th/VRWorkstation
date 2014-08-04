@@ -4,6 +4,8 @@
 #include <windows.h>
 #include <list>
 
+class CullingEngine;
+
 using namespace std;
 
 class Window{

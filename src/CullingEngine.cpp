@@ -63,22 +63,22 @@ void CullingEngine::updatePlanes(){
     Vec3<double> rightRay = (nearOrigin + right* wNear / 2) - pos;
     rightRay.normalize();
     Vec3<double> rightNormal = up.crossProduct(rightRay);
-    rightPlane->update(rightRay,rightNormal);
+    rightPlane->update(rightRay+pos,rightNormal);
 
     Vec3<double> leftRay = (nearOrigin - right* wNear / 2) - pos;
     leftRay.normalize();
     Vec3<double> leftNormal = leftRay.crossProduct(up);
-    leftPlane->update(leftRay, leftNormal);
+    leftPlane->update(leftRay+pos, leftNormal);
 
     Vec3<double> topRay = (nearOrigin + up * hNear / 2) - pos;
     topRay.normalize();
     Vec3<double> topNormal = topRay.crossProduct(right);
-    topPlane->update(topRay, topNormal);
+    topPlane->update(topRay+pos, topNormal);
 
     Vec3<double> bottomRay = (nearOrigin - up* hNear / 2) - pos;
     bottomRay.normalize();
     Vec3<double> bottomNormal = right.crossProduct(bottomRay);
-    bottomPlane->update(bottomRay, bottomNormal);
+    bottomPlane->update(bottomRay+pos, bottomNormal);
 }
 
 int CullingEngine::isScreenVisible(Screen* screen){

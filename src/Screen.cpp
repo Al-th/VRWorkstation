@@ -35,6 +35,8 @@ int Screen::getScreenID(){
 }
 
 void Screen::idleFunction(CullingEngine* cullingEngine){
+
+
     int visibility = cullingEngine->isScreenVisible(this);
     if(visibility > 1){
         for (int i = 0 ; i < nbWindows; i++){

@@ -49,6 +49,8 @@ HWND Window::getHwnd(){
     }
  }
 
+#include <time.h>
+#include <iostream>
 void Window::updateBitmap(){
         getHBitmap();
         convertToDib();
@@ -65,7 +67,6 @@ void Window::getHBitmap(){
     GetClientRect(hwnd,&clientRect);
     int width = clientRect.right-clientRect.left;
     int height = clientRect.bottom-clientRect.top ;
-
     hdcCapture = GetDC (hwnd);
     hdcMemCapture = CreateCompatibleDC(hdcCapture);
     tmpHBitmap = CreateCompatibleBitmap(hdcCapture,clientRect.right-clientRect.left,clientRect.bottom-clientRect.top);

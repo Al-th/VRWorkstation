@@ -30,6 +30,8 @@ class Engine{
         WindowBinder* windowBinder;
         Character* character;
         CullingEngine* cullingEngine;
+        float lastTime;
+        float currentTime;
         float timeInterval;
 
         void bindWindow(char*,int);
