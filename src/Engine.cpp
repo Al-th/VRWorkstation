@@ -29,16 +29,20 @@ Engine::~Engine(){
 
 void Engine::initOpenGL(int* argc, char** argv){
     glutInit(argc, argv);
-
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glutInitWindowSize(1024,800);	//Optionnel
+    glutInitWindowSize(960,540);	//Optionnel
     glutCreateWindow("VRWorkstation");
+
+    GLenum err = glewInit();
+    cout << "Glew Init : " << err << endl;
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glutSetCursor(GLUT_CURSOR_NONE);
+
+    //initShaders();
 }
 
 
@@ -62,23 +66,33 @@ void Engine::keyboardCallback(unsigned char key, int x, int y){
     character->keyboardFunction(key, timeInterval/1000.0);
 }
 
-void Engine::lookAt(){
+void Engine::lookAt(int eye){
     Vec3<double> pos = character->getPos();
     Vec3<double> dir = character->getDir();
     Vec3<double> up = character->getUp();
+
+    //TODO adapt to rift for eye ovrHMD
+    if(eye==0){
+        pos.x-=5;
+    }
 
     gluLookAt(pos.x,pos.y,pos.z,pos.x+dir.x,pos.y+dir.y,pos.z+dir.z,up.x,up.y,up.z);
 }
 
 void Engine::renderCallback(){
+    float width = 960;
+    float height = 540;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );	//Efface le frame buffer et le Z-buffer
-    glMatrixMode(GL_MODELVIEW);	//Choisit la matrice MODELVIEW
-    glLoadIdentity();	//Réinitialise la matrice
-    lookAt();
+    for(int eye = 0; eye < 2; eye++){
+        glViewport(eye*width/2.0,0,width/2.0,height);
+        glMatrixMode(GL_MODELVIEW);	//Choisit la matrice MODELVIEW
+        glLoadIdentity();	//Réinitialise la matrice
+        lookAt(eye);
 
-    renderEnvironment();
-    screenManager->renderFunction(cullingEngine);
+        renderEnvironment();
+        screenManager->renderFunction(cullingEngine);
 
+    }
     glutSwapBuffers();
     glutPostRedisplay();
 }
@@ -160,4 +174,39 @@ void Engine::renderRoom(){
     glEnd();
 }
 
+void Engine::initShaders(){
+    GLuint fragmentShaderObject;
+    GLuint vertexShaderObject;
+    GLubyte* fragmentShaderSource;
+    GLubyte* vertexShaderSource;
+    char* fragmentShaderFileName = "";
+    char* vertexShaderFileName = "";
+    GLint flength;
+    GLint vlength;
+    fragmentShaderObject = glCreateShader(GL_FRAGMENT_SHADER);
+    vertexShaderObject = glCreateShader(GL_VERTEX_SHADER);
+    ShaderManager::loadShader(fragmentShaderFileName,&fragmentShaderSource,&flength);
+    ShaderManager::loadShader(vertexShaderFileName, &vertexShaderSource, &vlength);
+    glShaderSourceARB(fragmentShaderObject, 1, (const GLcharARB**) &fragmentShaderSource, &flength);
+    glShaderSourceARB(vertexShaderObject, 1, (const GLcharARB**) &vertexShaderSource, &vlength);
+    glCompileShaderARB(fragmentShaderObject);
+    glCompileShaderARB(vertexShaderObject);
+
+    GLint fcompiled;
+    GLint vcompiled;
+    glGetObjectParameterivARB(fragmentShaderObject, GL_COMPILE_STATUS, &fcompiled);
+    glGetObjectParameterivARB(vertexShaderObject, GL_COMPILE_STATUS, &vcompiled);
+    if (vcompiled && fcompiled)
+    {
+        cout << "Shaders compiled" << endl;
+        GLuint programObject = glCreateProgram();
+        glAttachShader(programObject, fragmentShaderObject);
+        glAttachShader(programObject, vertexShaderObject);
+        glLinkProgram(programObject);
+        glUseProgram(programObject);
+    }
+    else{
+        cout << "Shader not compiled" << endl;
+    }
+}
 

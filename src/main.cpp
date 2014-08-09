@@ -1,6 +1,7 @@
-#include "Headers/Engine.h"
 #include <windows.h>
+#include <GL/glew.h>
 #include <gl/glut.h>
+#include "Headers/Engine.h"
 #include <Math.h>
 #include <ctime>
 

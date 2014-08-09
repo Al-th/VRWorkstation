@@ -2,6 +2,8 @@
 #define SCREEN_H_INCLUDED
 
 #include <windows.h>
+
+#include <GL/glew.h>
 #include <gl/glut.h>
 #include "Window.h"
 #include "Utils/Vec3.h"

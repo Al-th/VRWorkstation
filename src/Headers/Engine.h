@@ -2,6 +2,7 @@
 #define ENGINE_H_INCLUDED
 
 #include <windows.h>
+#include <GL/glew.h>
 #include <gl/glut.h>
 #include <Math.h>
 
@@ -9,6 +10,7 @@
 #include "WindowBinder.h"
 #include "Character.h"
 #include "CullingEngine.h"
+#include "ShaderManager.h"
 
 
 
@@ -36,11 +38,13 @@ class Engine{
 
         void bindWindow(char*,int);
 
-        void lookAt();
+        void lookAt(int);
 
         void renderEnvironment();
         void renderRoom();
         void renderOrigin();
+
+        void initShaders();
 };
 
 #endif // ENGINE_H_INCLUDED
