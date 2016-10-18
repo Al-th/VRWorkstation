@@ -6,3 +6,6 @@ VR Workstation is a project aimed to recreate a 3D Virtual Workstation. The goal
 This work is based on windows api (WinApi), and OpenGL. 
 
 Modify main.cpp to fetch the window you want to capture. Current version retrieve windows thanks to their name, currently a french mspaint.exe window with no title "Sans titre - Paint".
+
+
+Here is a little video showing off the capability of the software : https://www.youtube.com/watch?v=SUMZb2GWmrE
